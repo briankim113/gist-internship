@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ffmpeg-deployment
+  labels:
+    app: ffmpeg
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ffmpeg
+  template:
+    metadata:
+      labels:
+        app: ffmpeg
+    spec:
+      containers:
+      - name: ffmpeg-container
+        image: kimhssmartx/ffmpeg
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8090
+        - name: rtsp
+          containerPort: 554
+        command: ['/bin/sh', '-c', '~/ffserver.sh']
